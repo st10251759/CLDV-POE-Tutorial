@@ -17,5 +17,7 @@ namespace Cloud_MVC_Tutorial.Data
         public DbSet<Cloud_MVC_Tutorial.Models.Student> Student { get; set; } = default!;
         public DbSet<Cloud_MVC_Tutorial.Models.Course> Course { get; set; } = default!;
         public DbSet<Cloud_MVC_Tutorial.Models.Enrollment> Enrollment { get; set; } = default!;
+
+        public DbSet<Cloud_MVC_Tutorial.Models.EnrollmentHistory> EnrollmentHistories { get; set; } = default!;
     }
 }

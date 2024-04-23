@@ -4,6 +4,7 @@ using Cloud_MVC_Tutorial.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cloud_MVC_Tutorial.Migrations
 {
     [DbContext(typeof(Cloud_MVC_TutorialContext))]
-    partial class Cloud_MVC_TutorialContextModelSnapshot : ModelSnapshot
+    [Migration("20240423223355_AddEnrollmentHistory")]
+    partial class AddEnrollmentHistory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
