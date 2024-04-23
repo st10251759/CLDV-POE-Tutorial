@@ -1,6 +1,5 @@
 ﻿@model Cloud_MVC_Tutorial.ViewModels.EnrollmentHistoryViewModel
 
-
 @{
     ViewData["Title"] = "Enrollment History";
 }
@@ -10,7 +9,7 @@
 <form asp-action="EnrollmentHistory" method="get">
     <div class="form-group">
         <label for="FilterCourseName">Course Name:</label>
-        <input type="text" asp-for-"FilterCourseName" class="form-control" />
+        <input type="text" asp-for="FilterCourseName" class="form-control" />
     </div>
     <div class="form-group">
         <label for="FilterStudentName">Student Name:</label>
@@ -21,7 +20,30 @@
         <input type="date" asp-for="FilterStartDate" class="form-control" />
     </div>
     <div class="form-group">
-         <label for="FilterEndDate">End Date:</label>
+        <label for="FilterEndDate">End Date:</label>
         <input type="date" asp-for="FilterEndDate" class="form-control" />
     </div>
+    <button type="submit" class="btn btn-primary">Filter</button>
 </form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Enrollment ID</th>
+            <th>Course Name</th>
+            <th>Student Name</th>
+            <th>Enrollment Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var enrollment in Model.Enrollments)
+        {
+            <tr>
+                <td>@enrollment.EnrollmentId</td>
+                <td>@enrollment.Course.CourseName</td>
+                <td>@enrollment.Student.StudentName</td>
+                <td>@enrollment.EnrollmentDate.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
