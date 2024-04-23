@@ -8,6 +8,11 @@
 
         public int? StudentId { get; set; }
 
+        //Added two more variables
+        public DateTime EnrollmentDate { get; set; }
+
+        public DateTime ModifiedDate { get; set; }
+
         // Navigation properties
 
         //foreign key linkage to other tables

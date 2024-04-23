@@ -1,0 +1,27 @@
+﻿@model Cloud_MVC_Tutorial.ViewModels.EnrollmentHistoryViewModel
+
+
+@{
+    ViewData["Title"] = "Enrollment History";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="EnrollmentHistory" method="get">
+    <div class="form-group">
+        <label for="FilterCourseName">Course Name:</label>
+        <input type="text" asp-for-"FilterCourseName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="FilterStudentName">Student Name:</label>
+        <input type="text" asp-for="FilterStudentName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="FilterStartDate">Start Date:</label>
+        <input type="date" asp-for="FilterStartDate" class="form-control" />
+    </div>
+    <div class="form-group">
+         <label for="FilterEndDate">End Date:</label>
+        <input type="date" asp-for="FilterEndDate" class="form-control" />
+    </div>
+</form>

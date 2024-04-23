@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Cloud_MVC_Tutorial.Data;
 using Cloud_MVC_Tutorial.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using Cloud_MVC_Tutorial.ViewModels;
 
 namespace Cloud_MVC_Tutorial.Controllers
 {
@@ -63,13 +65,56 @@ namespace Cloud_MVC_Tutorial.Controllers
         {
             if (ModelState.IsValid)
             {
+                //Set the enrollment date when creating a new enrollment
+                enrollment.EnrollmentDate = DateTime.Now;
+                enrollment.ModifiedDate = DateTime.Now; //Initially, Modified is the same as EnrollmentDate - will change in the  Update View
+
                 _context.Add(enrollment);
                 await _context.SaveChangesAsync();
+
+                //Add to history
+                var history = new EnrollmentHistory
+                {
+                    EnrollmentId = enrollment.EnrollmentId,
+                    ChangeDate = DateTime.Now,
+                };
+
+                _context.EnrollmentHistories.Add(history);
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CourseId"] = new SelectList(_context.Course, "CourseId", "CourseId", enrollment.CourseId);
             ViewData["StudentId"] = new SelectList(_context.Student, "StudentId", "StudentId", enrollment.StudentId);
             return View(enrollment);
+        }
+
+        public async Task<IActionResult> EnrollmentHistory(EnrollmentHistoryViewModel model)
+        {
+            var query = _context.Enrollment.Include(e => e.Course).Include(e => e.Student).AsQueryable();
+            if (!string.IsNullOrEmpty(model.FilterCourseName))
+            {
+                query = query.Where(e => e.Course.CourseName.Contains(model.FilterCourseName));
+            }
+            if (!string.IsNullOrEmpty(model.FilterStudentName))
+            {
+                query = query.Where(e => e.Student.StudentName.Contains(model.FilterStudentName));
+            }
+            if (model.FilterStartDate.HasValue)
+            {
+                query = query.Where(e => e.EnrollmentDate >= model.FilterStartDate.Value);
+            }
+            if (model.FilterEndDate.HasValue)
+            {
+                query = query.Where(e => e.EnrollmentDate <= model.FilterEndDate.Value);
+            }
+
+            model.Enrollments = await query.OrderByDescending(e => e.ModifiedDate).ToListAsync();
+
+        }
+
+        private bool EnrollmentExsists(int id)
+        {
+            return _context.Enrollment.Any(equals => equals.EnrollmentId == id);
         }
 
         // GET: Enrollments/Edit/5
