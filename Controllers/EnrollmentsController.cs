@@ -110,6 +110,7 @@ namespace Cloud_MVC_Tutorial.Controllers
 
             model.Enrollments = await query.OrderByDescending(e => e.ModifiedDate).ToListAsync();
 
+            return View(model); // Add this return statement
         }
 
         private bool EnrollmentExsists(int id)
