@@ -1,3 +1,6 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Cloud_MVC_Tutorial.Data;
 namespace Cloud_MVC_Tutorial
 {
     public class Program
@@ -5,6 +8,8 @@ namespace Cloud_MVC_Tutorial
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDbContext<Cloud_MVC_TutorialContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("Cloud_MVC_TutorialContext") ?? throw new InvalidOperationException("Connection string 'Cloud_MVC_TutorialContext' not found.")));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
